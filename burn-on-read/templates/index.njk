@@ -1,0 +1,28 @@
+{% extends "base.njk" %}
+
+{% block content %}
+  <section class="message-card">
+    <div class="message-icon">✉</div>
+
+    <h2>Send a message that won't stay</h2>
+
+    <p class="message-description">Write your message below.</p>
+
+    <form class="message-form" method="POST" action="/messages">
+      <label for="message">Your message</label>
+
+      <textarea
+        class="form-control"
+        id="message"
+        name="message"
+        placeholder="Type your message here..."
+        required
+      ></textarea>
+
+      <button class="submit-button" type="submit">
+        Create burn-on-read message
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+  </section>
+{% endblock %}

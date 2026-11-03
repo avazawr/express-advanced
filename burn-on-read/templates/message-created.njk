@@ -1,0 +1,14 @@
+{% extends "base.njk" %}
+
+{% block content %}
+  <section class="message-card">
+    <div class="message-icon">✉</div>
+    <h3>Your message:</h3>
+
+    <div class="message-content">{{ message }}</div>
+
+    <p class="message-description">Share this link with the recipient:</p>
+
+    <div class="message-link">{{ link }}</div>
+  </section>
+{% endblock %}
