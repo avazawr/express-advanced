@@ -5,3 +5,4 @@ Dieses Repository enthält Übungsaufgaben aus dem Lernmodul **„Express Advanc
 ## Challenges:
 
 - Burn-on-read
+- MVC Pattern Challenge
