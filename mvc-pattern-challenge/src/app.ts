@@ -13,7 +13,10 @@ const projectRoot = path.resolve(__dirname, "..");
 const assetsDir = path.join(projectRoot, "src", "assets");
 const cssDir = path.join(projectRoot, "src", "css");
 
-nunjucks.configure(projectRoot, { autoescape: true, express: app });
+nunjucks.configure(path.join(projectRoot, "views"), {
+  autoescape: true,
+  express: app,
+});
 app.use("/assets", express.static(assetsDir));
 app.use("/css", express.static(cssDir));
 
