@@ -1,0 +1,50 @@
+{% import "formField.html" as forms %} {% extends "_adminLayout.html" %} {%
+block title %}{{ "Edit Post" if post else "Create Post" }}{% endblock %} {%
+block page_header %}
+<div class="admin-page-header">
+  <h1>{{ "Edit Post" if post else "Create Post" }}</h1>
+</div>
+{% endblock %} {% block main_content %}
+<div class="admin-content">
+  <form action="{{ action }}" method="POST">
+    {{ forms.formField('title', 'Title', 'text', post.title if post else '') }}
+    {{ forms.formField('image', 'Image', 'text', post.image if post else '') }}
+    {{ forms.formField('author', 'Author', 'text', post.author if post else '')
+    }}
+
+    <div class="form-floating mb-3">
+      <textarea
+        class="form-control"
+        id="teaser"
+        name="teaser"
+        placeholder="Teaser"
+        style="height: 100px"
+        required
+      >
+{{ post.teaser if post else '' }}</textarea
+      >
+      <label for="teaser">Teaser</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <textarea
+        class="form-control"
+        id="content"
+        name="content"
+        placeholder="Content"
+        style="height: 300px"
+        required
+      >
+{{ post.content if post else '' }}</textarea
+      >
+      <label for="content">Content</label>
+    </div>
+
+    <div class="admin-form__actions">
+      <button type="submit" class="admin-button admin-button--primary">
+        {{ "Save Changes" if post else "Create Post" }}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

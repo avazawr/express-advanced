@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import postRouter from "./routes/postRouters";
 import textpagesRouters from "./routes/textpagesRouters";
+import adminRouter from "./routes/adminRouters";
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use("/css", express.static(cssDir));
 
 app.use("/", postRouter);
 app.use("/", textpagesRouters);
+
+app.use("/admin", adminRouter);
 
 const port = Number(process.env.PORT) || 3000;
 

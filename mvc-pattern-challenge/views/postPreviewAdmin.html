@@ -1,0 +1,16 @@
+<article class="admin-post">
+  <div class="admin-post__info">
+    <h2>{{ post.title }}</h2>
+    <span>By {{ post.author }}</span>
+  </div>
+
+  <div class="admin-post__actions">
+    <a href="/admin/posts/{{ post.slug }}/edit" class="admin-button"> Edit </a>
+
+    <form action="/admin/posts/{{ post.slug }}/delete" method="POST">
+      <button type="submit" class="admin-button admin-button--danger">
+        Delete
+      </button>
+    </form>
+  </div>
+</article>

@@ -1,6 +1,8 @@
 import { type Request, type Response } from "express";
 import {
   type Filter,
+  type Post,
+  type PostsResultObject,
   getPostBySlug as fetchPost,
   getPosts as fetchPosts,
   slugify,
@@ -14,7 +16,7 @@ function formatDate(unix: number): string {
   });
 }
 
-export const getPosts = (req: Request, res: Response) => {
+export function createFilter(req: Request): Filter {
   const authorFilter =
     typeof req.query.author === "string" ? req.query.author.trim() : "";
   const sort = req.query.sort === "oldest" ? "oldest" : "newest";
@@ -29,20 +31,30 @@ export const getPosts = (req: Request, res: Response) => {
     sort,
     page,
   };
+  return filter;
+}
 
-  const { posts, totalPages, currentPage } = fetchPosts(filter);
+export function getPostsResultObject(req: Request): PostsResultObject {
+  const filter: Filter = createFilter(req);
+  return fetchPosts(filter);
+}
 
-  const view = posts.map((post) => ({
+export const getPosts = (req: Request, res: Response) => {
+  const { posts, totalPages, currentPage } = getPostsResultObject(req);
+
+  const view = posts.map((post: Post) => ({
     ...post,
     slug: slugify(post.title),
     createdAt: formatDate(post.createdAt),
   }));
 
+  const filter: Filter = createFilter(req);
+
   res.render("index.html", {
     posts: view,
     controls: {
-      author: authorFilter,
-      sort,
+      author: filter.author,
+      sort: filter.sort,
       page: currentPage,
       totalPages,
       hasPrev: currentPage > 1,

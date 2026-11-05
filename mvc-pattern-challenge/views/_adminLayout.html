@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Admin{% endblock %} | Clean Blog</title>
+
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/admin.css" rel="stylesheet" />
+  </head>
+
+  <body class="admin-layout">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="admin-header__inner">
+        <a class="admin-logo" href="/admin">Clean Blog <span>Admin</span></a>
+
+        <nav class="admin-nav">
+          <a href="/admin">Dashboard</a>
+          <a href="/admin/posts">Posts</a>
+          <a href="/">View Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <div class="admin-container">
+        {% block page_header %}
+        <div class="admin-page-header">
+          <h1>Dashboard</h1>
+        </div>
+        {% endblock page_header %} {% block main_content %}{% endblock %}
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
+      <div class="admin-footer__inner">
+        <span>Clean Blog Admin</span>
+        <span>&copy; 2026</span>
+      </div>
+    </footer>
+  </body>
+</html>

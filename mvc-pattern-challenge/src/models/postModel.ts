@@ -13,7 +13,7 @@ export interface Filter {
   page: number;
 }
 
-export type GetPostsResult = {
+export type PostsResultObject = {
   posts: Post[];
   totalPages: number;
   currentPage: number;
@@ -65,7 +65,7 @@ function loadPosts(): Post[] {
   return seedPosts;
 }
 
-export function getPosts(filter: Filter): GetPostsResult {
+export function getPosts(filter: Filter): PostsResultObject {
   const posts = loadPosts();
 
   const filteredPosts = filter.author

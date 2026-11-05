@@ -1,0 +1,284 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  background: #f5f6f8;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Layout */
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 40px 24px;
+}
+
+.admin-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
+.admin-header {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-header__inner {
+  max-width: 1100px;
+  min-height: 64px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.admin-logo {
+  font-size: 19px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-logo span {
+  margin-left: 5px;
+  color: #888;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.admin-nav a {
+  color: #666;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.admin-nav a:hover {
+  color: #111;
+}
+
+/* Page Header */
+.admin-page-header {
+  margin-bottom: 30px;
+}
+
+.admin-page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Main Content */
+.admin-content {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 24px;
+}
+
+/* Footer */
+.admin-footer {
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.admin-footer__inner {
+  max-width: 1100px;
+  min-height: 56px;
+  margin: 0 auto;
+  padding: 12px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #999;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .admin-header__inner {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    gap: 12px;
+  }
+
+  .admin-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .admin-main {
+    padding: 24px 16px;
+  }
+
+  .admin-container {
+    min-width: 0;
+  }
+
+  .admin-page-header h1 {
+    font-size: 24px;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+}
+
+.admin-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-post {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.admin-post__info h2 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.admin-post__info span {
+  color: #888;
+  font-size: 13px;
+}
+
+.admin-post__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-post__actions form {
+  margin: 0;
+}
+
+.admin-button {
+  display: inline-block;
+  padding: 7px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: #444;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-button:hover {
+  background: #f5f5f5;
+}
+
+.admin-button--danger {
+  color: #c0392b;
+  border-color: #f0d0d0;
+}
+
+.admin-button--danger:hover {
+  background: #fdf0f0;
+}
+
+@media (max-width: 600px) {
+  .admin-post {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* Admin Form */
+.admin-form {
+  max-width: 800px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.admin-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.admin-button--primary {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.admin-button--primary:hover {
+  background: #111;
+}
