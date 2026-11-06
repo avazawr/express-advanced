@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import postRouter from "./routes/postRouters";
 import textpagesRouters from "./routes/textpagesRouters";
 import adminRouter from "./routes/adminRouters";
+import { closeDB, connectDB } from "./db/database";
 
 const app = express();
 
@@ -20,6 +21,7 @@ nunjucks.configure(path.join(projectRoot, "views"), {
 });
 app.use("/assets", express.static(assetsDir));
 app.use("/css", express.static(cssDir));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", postRouter);
 app.use("/", textpagesRouters);
@@ -28,6 +30,20 @@ app.use("/admin", adminRouter);
 
 const port = Number(process.env.PORT) || 3000;
 
+await connectDB();
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+process.on("SIGINT", async () => {
+  console.log("SIGINT received. Closing database connection...");
+  await closeDB();
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM received. Closing database connection...");
+  await closeDB();
+  process.exit(0);
 });

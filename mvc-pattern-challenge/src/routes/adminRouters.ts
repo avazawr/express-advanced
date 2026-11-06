@@ -1,8 +1,11 @@
 import { Router } from "express";
 import {
   getPosts,
+  newPostPage,
+  editPostPage,
   createPost,
   editPost,
+  deletePost,
 } from "../controllers/adminControllers";
 
 const router = Router();
@@ -11,13 +14,18 @@ const router = Router();
 router.get("/", getPosts);
 
 // GET /admin/posts/new renders an empty form for creating a new post.
-router.get("/posts/new", createPost);
+router.get("/posts/new", newPostPage);
 
 // GET /admin/posts/:slug/edit renders a form pre-filled with the existing post data.
-router.get("/posts/:slug/edit", editPost);
-
-export default router;
+router.get("/posts/:slug/edit", editPostPage);
 
 // POST /admin/posts creates a new post from the form submission and redirects back to /admin.
+router.post("/posts", createPost);
+
 // POST /admin/posts/:slug saves the edited post and redirects back to /admin.
+router.post("/posts/:slug", editPost);
+
 // POST /admin/posts/:slug/delete removes the post and redirects back to /admin.
+router.post("/posts/:slug/delete", deletePost);
+
+export default router;

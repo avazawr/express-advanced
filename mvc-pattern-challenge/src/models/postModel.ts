@@ -1,3 +1,5 @@
+import { getDB } from "../db/database";
+
 export interface Post {
   title: string;
   image: string;
@@ -19,40 +21,9 @@ export type PostsResultObject = {
   currentPage: number;
 };
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 10;
 
-let seedPosts: Post[] = [
-  {
-    title: "Black: The Absence, Not the Presence, of Color",
-    image: "colorful-umbrella.jpg",
-    author: "Peter Parker",
-    createdAt: 1743120000,
-    teaser:
-      "Scientifically, black is not a color but rather the absence of all colors, occurring when an object absorbs nearly all light wavelengths instead of reflecting them.",
-    content:
-      "<p>When you think about the rainbow, you see a vibrant spectrum of hues. But black does not appear in that spectrum the same way red or blue does.</p><p>From a scientific perspective, black is usually the absence of visible light, not a reflected wavelength.</p>",
-  },
-  {
-    title: "Flowers: Nature's Muse for Design",
-    image: "flowers.jpg",
-    author: "Peter Parker",
-    createdAt: 1745452800,
-    teaser:
-      "Flowers inspire design with their color palettes, structure, and balance between repetition and variation.",
-    content:
-      "<p>Designers borrow from flowers all the time: layered composition, contrasting accents, and natural hierarchy.</p>",
-  },
-  {
-    title: "UDesign's Harmony: Core Purpose and Supporting Details",
-    image: "sailing.jpg",
-    author: "Peter Parker",
-    createdAt: 1748736000,
-    teaser:
-      "Strong design starts with one clear core idea, then adds supporting details that reinforce it.",
-    content:
-      "<p>A useful mental model is major and minor elements. Major elements communicate the main point, minor elements support it without stealing focus.</p>",
-  },
-];
+let seedPosts: Post[] = [];
 
 export function slugify(title: string): string {
   return title
@@ -61,12 +32,13 @@ export function slugify(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function loadPosts(): Post[] {
-  return seedPosts;
+function loadPosts(): Promise<Post[]> {
+  const db = getDB();
+  return db.all<Post[]>("SELECT * FROM blog_entries");
 }
 
-export function getPosts(filter: Filter): PostsResultObject {
-  const posts = loadPosts();
+export async function getPosts(filter: Filter): Promise<PostsResultObject> {
+  const posts = await loadPosts();
 
   const filteredPosts = filter.author
     ? posts.filter((post) =>
@@ -89,14 +61,24 @@ export function getPosts(filter: Filter): PostsResultObject {
   return { posts: pagedPosts, totalPages, currentPage };
 }
 
-export function getPostBySlug(slug: string): Post | undefined {
-  const posts = loadPosts();
-  const post = posts.find((p) => slugify(p.title) === slug);
+export async function getPostBySlug(slug: string): Promise<Post | undefined> {
+  const db = getDB();
+  const posts = await db.all<Post[]>("SELECT * FROM blog_entries");
 
-  return post;
+  return posts.find((post) => slugify(post.title) === slug);
 }
 
-// Replace all Posts
-export function replacePosts(posts: Post[]): void {
-  seedPosts = [...posts];
+export async function deletePost(slug: string): Promise<void> {
+  const db = getDB();
+  await db.run("DELETE FROM blog_entries WHERE slug = ?", slug);
+}
+
+export function addPost(_post: Post): void {
+  //TODO  Create Post
+  return;
+}
+
+export function patchPost(_post: Post): void {
+  //TODO  Change Post
+  return;
 }

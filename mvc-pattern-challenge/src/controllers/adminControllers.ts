@@ -1,10 +1,15 @@
 import { type Request, type Response } from "express";
 import { slugify } from "../models/postModel";
 import { getPostsResultObject } from "../controllers/postControllers";
-import { getPostBySlug } from "../models/postModel";
+import {
+  getPostBySlug,
+  deletePost as modelDeletePost,
+  addPost,
+  patchPost,
+} from "../models/postModel";
 
-export const getPosts = (req: Request, res: Response) => {
-  const { posts, totalPages, currentPage } = getPostsResultObject(req);
+export const getPosts = async (req: Request, res: Response) => {
+  const { posts, totalPages, currentPage } = await getPostsResultObject(req);
 
   const view = posts.map((post) => ({
     ...post,
@@ -24,14 +29,17 @@ export const getPosts = (req: Request, res: Response) => {
   });
 };
 
-export const createPost = (_req: Request, res: Response) => {
+export const newPostPage = (_req: Request, res: Response) => {
   res.render("createPostAdmin.html", {
     post: null,
     action: "/admin/posts/",
   });
 };
 
-export const editPost = (req: Request<{ slug: string }>, res: Response) => {
+export const editPostPage = async (
+  req: Request<{ slug: string }>,
+  res: Response,
+) => {
   const slug = req.params.slug;
 
   if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
@@ -39,7 +47,7 @@ export const editPost = (req: Request<{ slug: string }>, res: Response) => {
     return;
   }
 
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     res.status(404).send("Post not found");
@@ -49,4 +57,40 @@ export const editPost = (req: Request<{ slug: string }>, res: Response) => {
     post,
     action: `/admin/posts/${slug}/`,
   });
+};
+
+// API:
+export const createPost = (req: Request, res: Response) => {
+  console.log(req.body);
+  //TODO  Create Post (Model fnk)
+  //addPost(req.body);
+  res.redirect("/admin");
+};
+
+export const editPost = async (
+  req: Request<{ slug: string }>,
+  res: Response,
+) => {
+  const slug = req.params.slug;
+
+  if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+    res.status(400).send("Invalid slug");
+    return;
+  }
+  const post = await getPostBySlug(slug);
+  //console.log(post.id);
+  //TODO  Change Post (Model fnk)
+  //patchPost(req.body);
+  res.redirect("/admin");
+};
+
+export const deletePost = (req: Request<{ slug: string }>, res: Response) => {
+  const slug = req.params.slug;
+
+  if (!slug || !/^[a-z0-9-]+$/.test(slug)) {
+    res.status(400).send("Invalid slug");
+    return;
+  }
+  modelDeletePost(slug);
+  res.redirect("/admin");
 };

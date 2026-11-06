@@ -34,13 +34,15 @@ export function createFilter(req: Request): Filter {
   return filter;
 }
 
-export function getPostsResultObject(req: Request): PostsResultObject {
+export async function getPostsResultObject(
+  req: Request,
+): Promise<PostsResultObject> {
   const filter: Filter = createFilter(req);
   return fetchPosts(filter);
 }
 
-export const getPosts = (req: Request, res: Response) => {
-  const { posts, totalPages, currentPage } = getPostsResultObject(req);
+export const getPosts = async (req: Request, res: Response) => {
+  const { posts, totalPages, currentPage } = await getPostsResultObject(req);
 
   const view = posts.map((post: Post) => ({
     ...post,
@@ -63,7 +65,7 @@ export const getPosts = (req: Request, res: Response) => {
   });
 };
 
-export const getPostBySlug = (
+export const getPostBySlug = async (
   req: Request<{ slug: string }>,
   res: Response,
 ) => {
@@ -74,7 +76,7 @@ export const getPostBySlug = (
     return;
   }
 
-  const post = fetchPost(slug);
+  const post = await fetchPost(slug);
 
   if (!post) {
     res.status(404).send("Post not found");
